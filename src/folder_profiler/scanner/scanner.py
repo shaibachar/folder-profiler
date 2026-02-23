@@ -248,11 +248,15 @@ class FolderScanner:
             True if symlink is circular
         """
         try:
-            resolved = path.resolve()
-            current = path.parent
+            # Resolve the symlink target
+            resolved = path.resolve(strict=False)
+            # Start from the symlink's parent directory
+            current = path.parent.resolve(strict=False)
 
+            # Walk up the directory tree
             while current != current.parent:
-                if resolved == current:
+                # If resolved target equals any parent, it's circular
+                if resolved == current.resolve(strict=False):
                     return True
                 current = current.parent
 

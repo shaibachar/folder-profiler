@@ -274,7 +274,8 @@ class TestFolderScanner:
 
         assert len(result.files) == 1
         file_info = result.files[0]
-        assert file_info.path == test_file
+        # Compare resolved paths to handle Windows short paths (8.3 format)
+        assert file_info.path.resolve() == test_file.resolve()
         assert file_info.path.is_absolute()
 
     def test_statistics_tracking(self, create_test_structure):
