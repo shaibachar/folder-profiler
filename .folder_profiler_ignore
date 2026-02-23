@@ -1,0 +1,45 @@
+# Folder Profiler Ignore Patterns
+# Default ignore patterns for folder-profiler analysis
+
+# Version control
+.git/
+.svn/
+.hg/
+
+# Dependencies
+node_modules/
+vendor/
+bower_components/
+
+# Build outputs
+build/
+dist/
+target/
+out/
+*.egg-info/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.tox/
+venv/
+env/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+~$*
