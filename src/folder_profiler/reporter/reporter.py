@@ -40,5 +40,11 @@ class ReportGenerator:
         Raises:
             ValueError: If format is unsupported
         """
-        # Implementation will be added in REPORT-001, REPORT-002, REPORT-003
-        raise NotImplementedError("Report generator implementation pending")
+        if format == "json":
+            return self.json_reporter.generate(analysis_results, output_path)
+        elif format == "html":
+            return self.html_reporter.generate(analysis_results, output_path)
+        elif format == "pdf":
+            raise NotImplementedError("PDF format not yet supported")
+        else:
+            raise ValueError(f"Unsupported format: {format}")

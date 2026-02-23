@@ -1,0 +1,479 @@
+{
+  "metadata": {
+    "generated_at": "2026-02-23T11:56:07.218514",
+    "generator": "folder-profiler",
+    "version": "0.1.0"
+  },
+  "analysis": {
+    "statistics": {
+      "summary": {
+        "total_files": 26,
+        "total_folders": 9,
+        "total_size": 365311,
+        "average_file_size": 14050.423076923076,
+        "median_file_size": 4305.5,
+        "largest_file_size": 73070,
+        "smallest_file_size": 26
+      },
+      "file_types": {
+        "text": {
+          "count": 12,
+          "total_size": 41723
+        },
+        "application": {
+          "count": 14,
+          "total_size": 323588
+        }
+      },
+      "extensions": {
+        ".pyc": {
+          "count": 14,
+          "total_size": 323588
+        },
+        ".py": {
+          "count": 12,
+          "total_size": 41723
+        }
+      },
+      "age_distribution": {
+        "last_24h": 26,
+        "last_week": 0,
+        "last_month": 0,
+        "last_3_months": 0,
+        "last_6_months": 0,
+        "last_year": 0,
+        "older_than_year": 0
+      },
+      "size_distribution": {
+        "empty": 0,
+        "tiny_1kb": 8,
+        "small_10kb": 7,
+        "medium_100kb": 11,
+        "large_1mb": 0,
+        "xlarge_10mb": 0,
+        "xxlarge_100mb": 0,
+        "huge_1gb": 0,
+        "gigantic": 0
+      },
+      "depth_analysis": {
+        "max_depth": 2,
+        "files_by_depth": {
+          "0": 1,
+          "1": 12,
+          "2": 13
+        },
+        "folders_by_depth": {
+          "0": 1,
+          "1": 6,
+          "2": 3
+        },
+        "size_by_depth": {
+          "0": 3061,
+          "1": 42917,
+          "2": 319333
+        }
+      },
+      "largest_files": [
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_scanner.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_scanner.cpython-311-pytest-9.0.2.pyc",
+          "size": 73070,
+          "extension": ".pyc"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_scanner_integration.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_scanner_integration.cpython-311-pytest-9.0.2.pyc",
+          "size": 47607,
+          "extension": ".pyc"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_statistics.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_statistics.cpython-311-pytest-9.0.2.pyc",
+          "size": 37987,
+          "extension": ".pyc"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_patterns.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_patterns.cpython-311-pytest-9.0.2.pyc",
+          "size": 37763,
+          "extension": ".pyc"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_duplicates.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_duplicates.cpython-311-pytest-9.0.2.pyc",
+          "size": 32151,
+          "extension": ".pyc"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_analyzer.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_analyzer.cpython-311-pytest-9.0.2.pyc",
+          "size": 27835,
+          "extension": ".pyc"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_models.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_models.cpython-311-pytest-9.0.2.pyc",
+          "size": 23092,
+          "extension": ".pyc"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_ignore_patterns.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_ignore_patterns.cpython-311-pytest-9.0.2.pyc",
+          "size": 17896,
+          "extension": ".pyc"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\test_scanner.py",
+          "name": "test_scanner.py",
+          "size": 13515,
+          "extension": ".py"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\test_scanner_integration.py",
+          "name": "test_scanner_integration.py",
+          "size": 12950,
+          "extension": ".py"
+        }
+      ],
+      "largest_folders": [
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests",
+          "name": "tests",
+          "size": 365311,
+          "file_count": 26,
+          "folder_count": 9
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner",
+          "name": "test_scanner",
+          "size": 194977,
+          "file_count": 10,
+          "folder_count": 1
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__",
+          "name": "__pycache__",
+          "size": 161883,
+          "file_count": 5,
+          "folder_count": 0
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer",
+          "name": "test_analyzer",
+          "size": 151088,
+          "file_count": 8,
+          "folder_count": 1
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__",
+          "name": "__pycache__",
+          "size": 147036,
+          "file_count": 6,
+          "folder_count": 0
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_utils",
+          "name": "test_utils",
+          "size": 11865,
+          "file_count": 4,
+          "folder_count": 1
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_utils\\__pycache__",
+          "name": "__pycache__",
+          "size": 10414,
+          "file_count": 2,
+          "folder_count": 0
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\__pycache__",
+          "name": "__pycache__",
+          "size": 4255,
+          "file_count": 1,
+          "folder_count": 0
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_reporter",
+          "name": "test_reporter",
+          "size": 39,
+          "file_count": 1,
+          "folder_count": 0
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_cli",
+          "name": "test_cli",
+          "size": 26,
+          "file_count": 1,
+          "folder_count": 0
+        }
+      ],
+      "oldest_files": [
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_utils\\test_formatting.py",
+          "name": "test_formatting.py",
+          "size": 1417,
+          "modified": "2026-02-23T11:23:11.606709"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_utils\\__pycache__\\test_formatting.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_formatting.cpython-311-pytest-9.0.2.pyc",
+          "size": 10206,
+          "modified": "2026-02-23T11:26:46.304225"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\test_ignore_patterns.py",
+          "name": "test_ignore_patterns.py",
+          "size": 2235,
+          "modified": "2026-02-23T11:28:09.665479"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\test_models.py",
+          "name": "test_models.py",
+          "size": 4356,
+          "modified": "2026-02-23T11:28:09.665479"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__init__.py",
+          "name": "__init__.py",
+          "size": 38,
+          "modified": "2026-02-23T11:28:09.665479"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__init__.py",
+          "name": "__init__.py",
+          "size": 39,
+          "modified": "2026-02-23T11:28:09.666483"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_cli\\__init__.py",
+          "name": "__init__.py",
+          "size": 26,
+          "modified": "2026-02-23T11:28:09.666483"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_reporter\\__init__.py",
+          "name": "__init__.py",
+          "size": 39,
+          "modified": "2026-02-23T11:28:09.666483"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_utils\\__init__.py",
+          "name": "__init__.py",
+          "size": 34,
+          "modified": "2026-02-23T11:28:09.668480"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\__init__.cpython-311.pyc",
+          "name": "__init__.cpython-311.pyc",
+          "size": 218,
+          "modified": "2026-02-23T11:31:49.485196"
+        }
+      ],
+      "newest_files": [
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_scanner_integration.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_scanner_integration.cpython-311-pytest-9.0.2.pyc",
+          "size": 47607,
+          "modified": "2026-02-23T11:55:48.653879"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_scanner.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_scanner.cpython-311-pytest-9.0.2.pyc",
+          "size": 73070,
+          "modified": "2026-02-23T11:55:48.568433"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_analyzer_simple.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_analyzer_simple.cpython-311-pytest-9.0.2.pyc",
+          "size": 11080,
+          "modified": "2026-02-23T11:55:48.407960"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\__pycache__\\conftest.cpython-311-pytest-9.0.2.pyc",
+          "name": "conftest.cpython-311-pytest-9.0.2.pyc",
+          "size": 4255,
+          "modified": "2026-02-23T11:55:48.066829"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\test_analyzer_simple.py",
+          "name": "test_analyzer_simple.py",
+          "size": 4013,
+          "modified": "2026-02-23T11:50:34.493398"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\test_scanner_integration.py",
+          "name": "test_scanner_integration.py",
+          "size": 12950,
+          "modified": "2026-02-23T11:50:34.492396"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\conftest.py",
+          "name": "conftest.py",
+          "size": 3061,
+          "modified": "2026-02-23T11:50:34.491387"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\test_scanner.py",
+          "name": "test_scanner.py",
+          "size": 13515,
+          "modified": "2026-02-23T11:50:34.491387"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_utils\\__pycache__\\__init__.cpython-311.pyc",
+          "name": "__init__.cpython-311.pyc",
+          "size": 208,
+          "modified": "2026-02-23T11:43:24.645584"
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_statistics.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_statistics.cpython-311-pytest-9.0.2.pyc",
+          "size": 37987,
+          "modified": "2026-02-23T11:39:53.920596"
+        }
+      ]
+    },
+    "duplicates": {
+      "duplicate_groups": [],
+      "statistics": {
+        "total_duplicate_sets": 0,
+        "total_duplicate_files": 0,
+        "wasted_space": 0
+      }
+    },
+    "patterns": {
+      "version_patterns": [
+        {
+          "base_name": "__init__.cpython",
+          "count": 3,
+          "versions": [
+            {
+              "file": "__init__.cpython-311.pyc",
+              "type": "simple",
+              "version": [
+                "311"
+              ]
+            },
+            {
+              "file": "__init__.cpython-311.pyc",
+              "type": "simple",
+              "version": [
+                "311"
+              ]
+            },
+            {
+              "file": "__init__.cpython-311.pyc",
+              "type": "simple",
+              "version": [
+                "311"
+              ]
+            }
+          ]
+        }
+      ],
+      "temp_files": [],
+      "build_artifacts": [
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_analyzer.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_analyzer.cpython-311-pytest-9.0.2.pyc",
+          "size": 27835
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_analyzer_simple.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_analyzer_simple.cpython-311-pytest-9.0.2.pyc",
+          "size": 11080
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_duplicates.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_duplicates.cpython-311-pytest-9.0.2.pyc",
+          "size": 32151
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_patterns.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_patterns.cpython-311-pytest-9.0.2.pyc",
+          "size": 37763
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\test_statistics.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_statistics.cpython-311-pytest-9.0.2.pyc",
+          "size": 37987
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__\\__init__.cpython-311.pyc",
+          "name": "__init__.cpython-311.pyc",
+          "size": 220
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_ignore_patterns.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_ignore_patterns.cpython-311-pytest-9.0.2.pyc",
+          "size": 17896
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_models.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_models.cpython-311-pytest-9.0.2.pyc",
+          "size": 23092
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_scanner.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_scanner.cpython-311-pytest-9.0.2.pyc",
+          "size": 73070
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\test_scanner_integration.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_scanner_integration.cpython-311-pytest-9.0.2.pyc",
+          "size": 47607
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__\\__init__.cpython-311.pyc",
+          "name": "__init__.cpython-311.pyc",
+          "size": 218
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_utils\\__pycache__\\test_formatting.cpython-311-pytest-9.0.2.pyc",
+          "name": "test_formatting.cpython-311-pytest-9.0.2.pyc",
+          "size": 10206
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\test_utils\\__pycache__\\__init__.cpython-311.pyc",
+          "name": "__init__.cpython-311.pyc",
+          "size": 208
+        },
+        {
+          "path": "C:\\workspace\\folder-profiler\\tests\\__pycache__\\conftest.cpython-311-pytest-9.0.2.pyc",
+          "name": "conftest.cpython-311-pytest-9.0.2.pyc",
+          "size": 4255
+        }
+      ],
+      "naming_conventions": {
+        "snake_case": 7,
+        "kebab-case": 0,
+        "camelCase": 0,
+        "PascalCase": 0,
+        "UPPERCASE": 0,
+        "lowercase": 19,
+        "mixed": 0
+      },
+      "duplicate_names": [
+        {
+          "name": "__init__.py",
+          "count": 5,
+          "locations": [
+            "C:\\workspace\\folder-profiler\\tests\\test_analyzer",
+            "C:\\workspace\\folder-profiler\\tests\\test_cli",
+            "C:\\workspace\\folder-profiler\\tests\\test_reporter",
+            "C:\\workspace\\folder-profiler\\tests\\test_scanner",
+            "C:\\workspace\\folder-profiler\\tests\\test_utils"
+          ]
+        },
+        {
+          "name": "__init__.cpython-311.pyc",
+          "count": 3,
+          "locations": [
+            "C:\\workspace\\folder-profiler\\tests\\test_analyzer\\__pycache__",
+            "C:\\workspace\\folder-profiler\\tests\\test_scanner\\__pycache__",
+            "C:\\workspace\\folder-profiler\\tests\\test_utils\\__pycache__"
+          ]
+        }
+      ]
+    }
+  }
+}

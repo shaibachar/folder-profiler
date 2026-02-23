@@ -5,6 +5,7 @@ JSON report generation.
 from pathlib import Path
 from typing import Dict, Any
 import json
+from datetime import datetime
 
 
 class JSONReporter:
@@ -23,5 +24,21 @@ class JSONReporter:
         Returns:
             Path to generated report
         """
-        # Implementation will be added in REPORT-001
-        raise NotImplementedError("JSON reporter implementation pending")
+        # Add metadata
+        report = {
+            "metadata": {
+                "generated_at": datetime.now().isoformat(),
+                "generator": "folder-profiler",
+                "version": "0.1.0",
+            },
+            "analysis": analysis_results,
+        }
+        
+        # Ensure parent directory exists
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+        
+        # Write JSON with pretty printing
+        with open(output_path, "w", encoding="utf-8") as f:
+            json.dump(report, f, indent=2, ensure_ascii=False)
+        
+        return output_path
