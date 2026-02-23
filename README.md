@@ -192,11 +192,11 @@ mypy src
 
 ## Project Status
 
-**Current Version:** 0.1.0 (Alpha)
+**Current Version:** 1.0.0 (Stable)
 
 ### Roadmap
 
-- ✅ **v1.0** (MVP) - Core scanning, analysis, and reporting
+- ✅ **v1.0** - Core scanning, analysis, and reporting (Released: February 23, 2026)
 - 🚧 **v1.5** - Advanced content analysis and AI recommendations
 - 📅 **v2.0** - Web UI, real-time monitoring, plugin system
 
