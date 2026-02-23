@@ -6,15 +6,18 @@ import os
 import platform
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from folder_profiler.scanner.ignore_patterns import IgnorePatternMatcher
 from folder_profiler.scanner.models import FileInfo, FolderNode
 
-try:
+if TYPE_CHECKING:
     import magic
-except ImportError:
-    magic = None
+else:
+    try:
+        import magic
+    except ImportError:
+        magic = None  # type: ignore
 
 
 class FolderScanner:
@@ -331,8 +334,10 @@ class FolderScanner:
                 import ctypes
 
                 FILE_ATTRIBUTE_HIDDEN = 0x02
-                attrs = ctypes.windll.kernel32.GetFileAttributesW(str(path))
-                return bool(attrs & FILE_ATTRIBUTE_HIDDEN)
+                windll = getattr(ctypes, "windll", None)
+                if windll is not None:
+                    attrs = windll.kernel32.GetFileAttributesW(str(path))
+                    return bool(attrs & FILE_ATTRIBUTE_HIDDEN)
             except Exception:
                 pass
 
