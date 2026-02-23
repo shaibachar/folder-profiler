@@ -13,11 +13,12 @@ Folder Profiler is a Python-based CLI application that provides deep insights in
 ### Key Features
 
 - 📊 **Comprehensive File System Analysis** - Deep scanning with detailed statistics
-- 🔍 **Duplicate Detection** - Find exact and near-duplicate files
-- 🤖 **AI-Powered Recommendations** - Intelligent suggestions for organization
-- 📈 **Detailed Reporting** - Generate reports in JSON, HTML, and PDF formats
+- 🔍 **Duplicate Detection** - Find exact duplicate files with SHA-256 hashing
+- 💡 **Smart Recommendations** - Actionable insights for cleanup and organization
+- 🏥 **Folder Health Scoring** - Get an overall health assessment (0-100)
+- 📈 **Detailed Reporting** - Generate reports in JSON, HTML, and console formats
 - ⚡ **High Performance** - Efficiently handles large directory structures
-- 🎨 **Beautiful CLI** - Rich terminal UI with progress indicators
+- 🎨 **Beautiful CLI** - Rich terminal UI with progress indicators and colored output
 - 🔧 **Flexible Configuration** - Customizable ignore patterns and analysis depth
 
 ## Installation
@@ -31,22 +32,9 @@ pip install folder-profiler
 ### From Source
 
 ```bash
-git clone https://github.com/folder-profiler/folder-profiler.git
+git clone https://github.com/yourusername/folder-profiler.git
 cd folder-profiler
 pip install -e .
-```
-
-### Optional Dependencies
-
-```bash
-# For ML-based features
-pip install folder-profiler[ml]
-
-# For enhanced reports
-pip install folder-profiler[reports]
-
-# Install everything
-pip install folder-profiler[all]
 ```
 
 ## Quick Start
@@ -95,23 +83,42 @@ folder-profiler analyze ~/projects \
 ### Analysis Capabilities
 
 - **Basic Statistics**: File/folder counts, size distributions, type breakdowns
-- **Advanced Metrics**: Age distributions, depth analysis, growth rates
-- **Pattern Detection**: Naming conventions, version schemes, temporary files
-- **Duplicate Detection**: Exact matches via hashing, near-duplicates via ML
+- **Advanced Metrics**: Age distributions, depth analysis, largest files/folders
+- **Pattern Detection**: Naming conventions, version schemes, temporary files, build artifacts
+- **Duplicate Detection**: Exact matches via SHA-256 hashing with wasted space calculation
+- **Smart Recommendations**: Actionable cleanup and organization suggestions with priority levels
+- **Health Scoring**: Overall folder health assessment on a 0-100 scale
+
+### Smart Recommendations
+
+The recommendation engine analyzes your folder structure and provides intelligent suggestions:
+
+- **Storage Optimization**: Identifies duplicate files and calculates potential space savings
+- **Cleanup Suggestions**: Detects temporary files, build artifacts, and unnecessary files
+- **Organization Advice**: Warns about deep folder nesting and versioning patterns
+- **Priority Levels**: Recommendations are categorized as Critical, High, Medium, Low, or Info
+- **Health Score**: Get an overall assessment from 0 (critical) to 100 (excellent)
+
+Example recommendations:
+- Remove 150 temporary files to save 7.5 MB
+- Delete duplicate files wasting 250 MB of space
+- Consider using Git instead of manual file versioning
+- Flatten folder structure (currently 15 levels deep)
 - **Content Analysis**: MIME type detection, file classification
 
-### Reporting
+### Reporting Formats
 
-- **JSON**: Machine-readable format for integration
-- **HTML**: Interactive reports with charts and visualizations
-- **PDF**: Professional reports for sharing (requires `reports` extras)
+- **Console**: Beautiful terminal output with Rich formatting, colored tables, and health scores
+- **JSON**: Machine-readable format with metadata for integration and automation
+- **HTML**: Styled reports with health scores, recommendations, and comprehensive analysis
 
-### AI Recommendations (v1.5+)
-
-- Organization suggestions based on content analysis
-- Security insights (sensitive data detection)
-- Storage optimization recommendations
-- Cleanup action lists with safety checks
+All formats include:
+- Summary statistics with file/folder counts and sizes
+- Health score and summary assessment
+- Smart recommendations with priority levels and impact estimates
+- Duplicate file detection with wasted space calculation
+- File extension breakdown and pattern analysis
+- Top largest files and folders
 
 ## Configuration
 

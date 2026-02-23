@@ -42,6 +42,16 @@ class HTMLReporter:
         summary = stats.get("summary", {})
         duplicates = analysis.get("duplicates", {})
         patterns = analysis.get("patterns", {})
+        recommendations = analysis.get("recommendations", {})
+        
+        # Build recommendations section if available
+        recommendations_html = ""
+        if recommendations and recommendations.get("recommendations"):
+            recommendations_html = f"""
+    <h2>Smart Recommendations</h2>
+    {self._generate_health_score_card(recommendations)}
+    {self._generate_recommendations_table(recommendations.get('recommendations', []))}
+            """
         
         html_template = f"""
 <!DOCTYPE html>
@@ -91,6 +101,24 @@ class HTMLReporter:
             font-weight: bold;
             color: #4CAF50;
         }}
+        .health-score {{
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }}
+        .health-score .score {{
+            font-size: 48px;
+            font-weight: bold;
+            margin: 10px 0;
+        }}
+        .priority-critical {{ color: #d32f2f; font-weight: bold; }}
+        .priority-high {{ color: #f57c00; font-weight: bold; }}
+        .priority-medium {{ color: #fbc02d; font-weight: bold; }}
+        .priority-low {{ color: #1976d2; }}
+        .priority-info {{ color: #757575; }}
         table {{
             width: 100%;
             border-collapse: collapse;
@@ -121,6 +149,8 @@ class HTMLReporter:
 <body>
     <h1>Folder Analysis Report</h1>
     <p>Generated: {html.escape(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))}</p>
+    
+    {recommendations_html}
     
     <h2>Summary</h2>
     <div class="summary-grid">
@@ -236,6 +266,65 @@ class HTMLReporter:
                 <th>Extension</th>
                 <th>Count</th>
                 <th>Total Size</th>
+            </tr>
+            {rows}
+        </table>
+        """
+    
+    def _generate_health_score_card(self, recommendations: dict) -> str:
+        """Generate health score card."""
+        health_score = recommendations.get("health_score", 0)
+        summary = recommendations.get("summary", "")
+        
+        # Determine color based on score
+        if health_score >= 90:
+            color = "#4CAF50"  # Green
+        elif health_score >= 75:
+            color = "#2196F3"  # Blue
+        elif health_score >= 60:
+            color = "#FFC107"  # Amber
+        elif health_score >= 40:
+            color = "#FF9800"  # Orange
+        else:
+            color = "#F44336"  # Red
+        
+        return f"""
+        <div class="health-score">
+            <h3>Folder Health Score</h3>
+            <div class="score" style="color: {color};">{health_score}/100</div>
+            <p>{html.escape(summary)}</p>
+        </div>
+        """
+    
+    def _generate_recommendations_table(self, recommendations: list) -> str:
+        """Generate recommendations table."""
+        if not recommendations:
+            return "<p>No recommendations available.</p>"
+        
+        rows = ""
+        for rec in recommendations[:10]:  # Top 10
+            priority = rec.get("priority", "info")
+            priority_class = f"priority-{priority}"
+            
+            savings = rec.get("estimated_savings", 0)
+            impact = self._format_size(savings) if savings > 0 else "-"
+            
+            rows += f"""
+        <tr>
+            <td class="{priority_class}">{priority.upper()}</td>
+            <td>{html.escape(rec.get('title', ''))}</td>
+            <td>{html.escape(rec.get('action', ''))}</td>
+            <td>{impact}</td>
+        </tr>
+            """
+        
+        return f"""
+        <table>
+            <tr>
+                <th>Priority</th>
+                <th>Title</th>
+                <th>Action</th>
+                <th>Estimated Savings</th>
             </tr>
             {rows}
         </table>

@@ -35,6 +35,12 @@ class ConsoleReporter:
         stats = analysis_results.get("statistics", {})
         duplicates = analysis_results.get("duplicates", {})
         patterns = analysis_results.get("patterns", {})
+        recommendations = analysis_results.get("recommendations", {})
+        
+        # Print health score and summary if available
+        if recommendations:
+            self._print_health_score(recommendations)
+            self.console.print("\n")
         
         # Print summary
         self._print_summary(stats.get("summary", {}))
@@ -54,6 +60,11 @@ class ConsoleReporter:
         # Print patterns
         self.console.print("\n")
         self._print_patterns(patterns)
+        
+        # Print recommendations
+        if recommendations and recommendations.get("recommendations"):
+            self.console.print("\n")
+            self._print_recommendations(recommendations)
     
     def _print_summary(self, summary: dict) -> None:
         """Print summary statistics."""
@@ -156,3 +167,73 @@ class ConsoleReporter:
                 return f"{size_bytes:.1f} {unit}"
             size_bytes /= 1024.0
         return f"{size_bytes:.1f} PB"
+    
+    def _print_health_score(self, recommendations: dict) -> None:
+        """Print folder health score."""
+        health_score = recommendations.get("health_score", 0)
+        summary = recommendations.get("summary", "")
+        
+        # Color based on score
+        if health_score >= 90:
+            color = "green"
+            icon = "✅"
+        elif health_score >= 75:
+            color = "blue"
+            icon = "✓"
+        elif health_score >= 60:
+            color = "yellow"
+            icon = "⚠️"
+        elif health_score >= 40:
+            color = "orange"
+            icon = "⚠️"
+        else:
+            color = "red"
+            icon = "❌"
+        
+        self.console.print(
+            Panel(
+                f"{icon} [bold {color}]Health Score: {health_score}/100[/bold {color}]\n{summary}",
+                title="📊 Folder Health",
+                border_style=color,
+            )
+        )
+    
+    def _print_recommendations(self, recommendations: dict) -> None:
+        """Print smart recommendations."""
+        recs = recommendations.get("recommendations", [])
+        if not recs:
+            return
+        
+        table = Table(title="💡 Smart Recommendations", box=None)
+        table.add_column("Priority", style="bold", width=10)
+        table.add_column("Title", style="cyan")
+        table.add_column("Action", style="white", no_wrap=False)
+        table.add_column("Impact", style="green", justify="right")
+        
+        for rec in recs[:10]:  # Show top 10
+            priority = rec.get("priority", "info")
+            
+            # Color code priority
+            if priority == "critical":
+                priority_text = "[red bold]CRITICAL[/red bold]"
+            elif priority == "high":
+                priority_text = "[red]HIGH[/red]"
+            elif priority == "medium":
+                priority_text = "[yellow]MEDIUM[/yellow]"
+            elif priority == "low":
+                priority_text = "[blue]LOW[/blue]"
+            else:
+                priority_text = "[dim]INFO[/dim]"
+            
+            savings = rec.get("estimated_savings", 0)
+            impact = self._format_size(savings) if savings > 0 else "-"
+            
+            table.add_row(
+                priority_text,
+                rec.get("title", ""),
+                rec.get("action", ""),
+                impact,
+            )
+        
+        self.console.print(table)
+
