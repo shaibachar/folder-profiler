@@ -48,6 +48,38 @@ def sample_folder_node(sample_file_info):
     )
 
 
+def make_file_info(path, name, size, extension="", mime_type=None, modified=None):
+    """
+    Helper function to create FileInfo objects with sensible defaults.
+    
+    Args:
+        path: File path
+        name: File name
+        size: File size in bytes
+        extension: File extension (default: "")
+        mime_type: MIME type (default: None)
+        modified: Modified datetime (default: now)
+    
+    Returns:
+        FileInfo instance
+    """
+    if modified is None:
+        modified = datetime.now()
+    
+    return FileInfo(
+        path=path,
+        name=name,
+        size=size,
+        created=modified,
+        modified=modified,
+        accessed=modified,
+        extension=extension,
+        mime_type=mime_type,
+        is_hidden=False,
+        is_symlink=False,
+    )
+
+
 @pytest.fixture
 def create_test_structure(temp_dir):
     """

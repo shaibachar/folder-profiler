@@ -5,6 +5,7 @@ Main folder analysis orchestrator.
 from folder_profiler.scanner.models import FolderNode
 from folder_profiler.analyzer.statistics import StatisticsCalculator
 from folder_profiler.analyzer.duplicates import DuplicateDetector
+from folder_profiler.analyzer.patterns import PatternDetector
 from typing import Dict, Any
 
 
@@ -17,6 +18,7 @@ class FolderAnalyzer:
         """Initialize the analyzer."""
         self.stats_calculator = StatisticsCalculator()
         self.duplicate_detector = DuplicateDetector()
+        self.pattern_detector = PatternDetector()
 
     def analyze(self, folder_tree: FolderNode) -> Dict[str, Any]:
         """
@@ -28,5 +30,10 @@ class FolderAnalyzer:
         Returns:
             Dictionary containing all analysis results
         """
-        # Implementation will be added in ANALYZE-001 through ANALYZE-003
-        raise NotImplementedError("Analyzer implementation pending")
+        analysis = {
+            "statistics": self.stats_calculator.calculate(folder_tree),
+            "duplicates": self.duplicate_detector.find_duplicates(folder_tree),
+            "patterns": self.pattern_detector.detect_patterns(folder_tree),
+        }
+        
+        return analysis
