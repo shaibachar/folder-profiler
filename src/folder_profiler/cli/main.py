@@ -2,16 +2,18 @@
 Main CLI entry point using Click.
 """
 
-import click
 from pathlib import Path
+from typing import cast
+
+import click
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TextColumn
 
 from folder_profiler import __version__
-from folder_profiler.scanner.scanner import FolderScanner
 from folder_profiler.analyzer.analyzer import FolderAnalyzer
-from folder_profiler.reporter.reporter import ReportGenerator
 from folder_profiler.reporter.console_reporter import ConsoleReporter
+from folder_profiler.reporter.reporter import ReportFormat, ReportGenerator
+from folder_profiler.scanner.scanner import FolderScanner
 
 console = Console()
 
@@ -19,7 +21,7 @@ console = Console()
 @click.group()
 @click.version_option(version=__version__, prog_name="folder-profiler")
 @click.pass_context
-def cli(ctx):
+def cli(ctx: click.Context) -> None:
     """
     Folder Profiler - Intelligent file system analysis tool.
 
@@ -67,14 +69,22 @@ def cli(ctx):
     is_flag=True,
     help="Don't respect .gitignore files",
 )
-def analyze(path, output, format, max_depth, include, exclude, no_gitignore):
+def analyze(
+    path: str,
+    output: str,
+    format: str,
+    max_depth: int,
+    include: tuple[str, ...],
+    exclude: tuple[str, ...],
+    no_gitignore: bool,
+) -> None:
     """
     Analyze a folder and generate a report.
 
     PATH is the folder to analyze.
     """
     console.print(f"[bold blue]Analyzing:[/bold blue] {path}")
-    
+
     try:
         with Progress(
             SpinnerColumn(),
@@ -89,41 +99,52 @@ def analyze(path, output, format, max_depth, include, exclude, no_gitignore):
                 exclude_patterns=list(exclude) if exclude else None,
                 respect_gitignore=not no_gitignore,
             )
-            folder_tree = scanner.scan(path)
+            folder_tree = scanner.scan(Path(path))
             progress.update(task, completed=True)
-            
+
             # Analyze the folder
             task = progress.add_task("[cyan]Analyzing files...", total=None)
             analyzer = FolderAnalyzer()
             analysis_results = analyzer.analyze(folder_tree)
             progress.update(task, completed=True)
-            
+
             # Generate report
             if format == "console":
                 console.print("\n")
                 reporter = ConsoleReporter(console)
                 reporter.generate(analysis_results)
             else:
+                output_path: Path
                 if not output:
-                    output = Path(f"folder-report.{format}")
-                
-                task = progress.add_task(f"[cyan]Generating {format.upper()} report...", total=None)
+                    output_path = Path(f"folder-report.{format}")
+                else:
+                    output_path = Path(output)
+
+                task = progress.add_task(
+                    f"[cyan]Generating {format.upper()} report...", total=None
+                )
                 report_gen = ReportGenerator()
-                report_path = report_gen.generate(analysis_results, output, format)
+                output_path = report_gen.generate(
+                    analysis_results, output_path, cast(ReportFormat, format)
+                )
                 progress.update(task, completed=True)
-                
-                console.print(f"\n[bold green]✓[/bold green] Report generated: {report_path}")
-        
+
+                console.print(
+                    f"\n[bold green]✓[/bold green] Report generated: {output_path}"
+                )
+
         # Show scan statistics
-        console.print(f"\n[dim]Scanned {scanner.files_scanned:,} files, "
-                     f"{scanner.folders_scanned:,} folders[/dim]")
-                     
+        console.print(
+            f"\n[dim]Scanned {scanner.files_scanned:,} files, "
+            f"{scanner.folders_scanned:,} folders[/dim]"
+        )
+
     except KeyboardInterrupt:
         console.print("\n[yellow]Analysis cancelled by user[/yellow]")
-        raise click.Abort()
+        raise click.Abort() from None
     except Exception as e:
         console.print(f"\n[bold red]Error:[/bold red] {e}")
-        raise click.Abort()
+        raise click.Abort() from e
 
 
 @cli.command()
@@ -132,7 +153,7 @@ def analyze(path, output, format, max_depth, include, exclude, no_gitignore):
     is_flag=True,
     help="Show current configuration",
 )
-def config(show):
+def config(show: bool) -> None:
     """
     Manage configuration settings.
     """
@@ -144,9 +165,13 @@ def config(show):
         console.print("[yellow]Configuration management coming soon[/yellow]")
 
 
-def main():
+def main() -> int:
     """Main entry point."""
-    return cli(obj={})
+    try:
+        cli(obj={})
+        return 0
+    except Exception:
+        return 1
 
 
 if __name__ == "__main__":

@@ -2,11 +2,11 @@
 Data models for file system scanning.
 """
 
-from dataclasses import dataclass, field
-from pathlib import Path
-from datetime import datetime
-from typing import List, Optional, Dict, Any
 import json
+from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Optional
 
 
 @dataclass
@@ -26,7 +26,7 @@ class FileInfo:
     is_hidden: bool = False
     is_symlink: bool = False
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "path": str(self.path),
@@ -51,8 +51,8 @@ class FolderNode:
     path: Path
     name: str
     depth: int
-    files: List[FileInfo] = field(default_factory=list)
-    subfolders: List["FolderNode"] = field(default_factory=list)
+    files: list[FileInfo] = field(default_factory=list)
+    subfolders: list["FolderNode"] = field(default_factory=list)
 
     @property
     def total_size(self) -> int:
@@ -71,7 +71,7 @@ class FolderNode:
         """Count total subfolders (including nested)."""
         return len(self.subfolders) + sum(sf.total_folders for sf in self.subfolders)
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             "path": str(self.path),

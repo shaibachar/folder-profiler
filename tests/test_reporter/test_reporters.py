@@ -3,15 +3,14 @@ Tests for report generators.
 """
 
 import json
-from pathlib import Path
 
 import pytest
 from bs4 import BeautifulSoup
 from rich.console import Console
 
-from folder_profiler.reporter.json_reporter import JSONReporter
-from folder_profiler.reporter.html_reporter import HTMLReporter
 from folder_profiler.reporter.console_reporter import ConsoleReporter
+from folder_profiler.reporter.html_reporter import HTMLReporter
+from folder_profiler.reporter.json_reporter import JSONReporter
 from folder_profiler.reporter.reporter import ReportGenerator
 
 
@@ -109,7 +108,9 @@ class TestJSONReporter:
         assert "version" in data["metadata"]
         assert data["metadata"]["generator"] == "folder-profiler"
 
-    def test_generate_includes_analysis_results(self, tmp_path, sample_analysis_results):
+    def test_generate_includes_analysis_results(
+        self, tmp_path, sample_analysis_results
+    ):
         """Test that JSON includes all analysis results."""
         reporter = JSONReporter()
         output_path = tmp_path / "report.json"
@@ -120,10 +121,14 @@ class TestJSONReporter:
             data = json.load(f)
 
         assert data["analysis"]["statistics"]["summary"]["total_files"] == 10
-        assert data["analysis"]["duplicates"]["statistics"]["total_duplicate_files"] == 2
+        assert (
+            data["analysis"]["duplicates"]["statistics"]["total_duplicate_files"] == 2
+        )
         assert len(data["analysis"]["patterns"]["temp_files"]) == 2
 
-    def test_generate_creates_parent_directories(self, tmp_path, sample_analysis_results):
+    def test_generate_creates_parent_directories(
+        self, tmp_path, sample_analysis_results
+    ):
         """Test that JSON reporter creates parent directories if needed."""
         reporter = JSONReporter()
         output_path = tmp_path / "subdir" / "nested" / "report.json"
@@ -206,7 +211,9 @@ class TestHTMLReporter:
         assert "body" in style.text
         assert "summary-grid" in style.text
 
-    def test_generate_creates_parent_directories(self, tmp_path, sample_analysis_results):
+    def test_generate_creates_parent_directories(
+        self, tmp_path, sample_analysis_results
+    ):
         """Test that HTML reporter creates parent directories if needed."""
         reporter = HTMLReporter()
         output_path = tmp_path / "subdir" / "nested" / "report.html"
@@ -223,9 +230,9 @@ class TestConsoleReporter:
     def test_generate_with_default_console(self, sample_analysis_results, capsys):
         """Test that console reporter works with default console."""
         reporter = ConsoleReporter()
-        
+
         reporter.generate(sample_analysis_results)
-        
+
         captured = capsys.readouterr()
         # Check that some output was produced
         # (Rich console may format differently, so just verify output exists)
@@ -235,7 +242,7 @@ class TestConsoleReporter:
         """Test that console output includes statistics."""
         console = Console(file=None, force_terminal=False, width=80)
         reporter = ConsoleReporter(console)
-        
+
         # We can't easily capture Rich output, so just verify it doesn't crash
         reporter.generate(sample_analysis_results)
 
@@ -243,13 +250,13 @@ class TestConsoleReporter:
         """Test console reporter handles empty results."""
         console = Console(file=None, force_terminal=False)
         reporter = ConsoleReporter(console)
-        
+
         empty_results = {
             "statistics": {"summary": {}, "largest_files": []},
             "duplicates": {"duplicate_groups": [], "statistics": {}},
             "patterns": {},
         }
-        
+
         # Should not crash
         reporter.generate(empty_results)
 

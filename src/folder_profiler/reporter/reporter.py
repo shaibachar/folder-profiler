@@ -3,9 +3,10 @@ Main report generation orchestrator.
 """
 
 from pathlib import Path
-from typing import Dict, Any, Literal
-from folder_profiler.reporter.json_reporter import JSONReporter
+from typing import Any, Literal
+
 from folder_profiler.reporter.html_reporter import HTMLReporter
+from folder_profiler.reporter.json_reporter import JSONReporter
 
 ReportFormat = Literal["json", "html", "pdf"]
 
@@ -15,14 +16,14 @@ class ReportGenerator:
     Generates reports in various formats.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the report generator."""
         self.json_reporter = JSONReporter()
         self.html_reporter = HTMLReporter()
 
     def generate(
         self,
-        analysis_results: Dict[str, Any],
+        analysis_results: dict[str, Any],
         output_path: Path,
         format: ReportFormat = "html",
     ) -> Path:

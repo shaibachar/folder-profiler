@@ -2,10 +2,9 @@
 Unit tests for scanner models.
 """
 
-import pytest
-from pathlib import Path
-from datetime import datetime
 import json
+from datetime import datetime
+from pathlib import Path
 
 from folder_profiler.scanner.models import FileInfo, FolderNode
 

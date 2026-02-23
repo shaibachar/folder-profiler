@@ -2,11 +2,12 @@
 Test configuration and fixtures.
 """
 
-import pytest
-from pathlib import Path
-import tempfile
 import shutil
+import tempfile
 from datetime import datetime
+from pathlib import Path
+
+import pytest
 
 from folder_profiler.scanner.models import FileInfo, FolderNode
 
@@ -51,7 +52,7 @@ def sample_folder_node(sample_file_info):
 def make_file_info(path, name, size, extension="", mime_type=None, modified=None):
     """
     Helper function to create FileInfo objects with sensible defaults.
-    
+
     Args:
         path: File path
         name: File name
@@ -59,13 +60,13 @@ def make_file_info(path, name, size, extension="", mime_type=None, modified=None
         extension: File extension (default: "")
         mime_type: MIME type (default: None)
         modified: Modified datetime (default: now)
-    
+
     Returns:
         FileInfo instance
     """
     if modified is None:
         modified = datetime.now()
-    
+
     return FileInfo(
         path=path,
         name=name,

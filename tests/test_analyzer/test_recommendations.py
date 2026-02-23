@@ -2,18 +2,14 @@
 Tests for recommendation engine.
 """
 
-from pathlib import Path
-from datetime import datetime, timedelta
-
 import pytest
 
+from folder_profiler.analyzer.analyzer import FolderAnalyzer
 from folder_profiler.analyzer.recommendations import (
+    Priority,
     RecommendationEngine,
     RecommendationType,
-    Priority,
 )
-from folder_profiler.scanner.models import FileInfo, FolderNode
-from folder_profiler.analyzer.analyzer import FolderAnalyzer
 
 
 @pytest.fixture
@@ -43,7 +39,9 @@ def sample_analysis_with_duplicates():
             "statistics": {
                 "total_duplicate_sets": 5,
                 "total_duplicate_files": 20,
-                "wasted_space": 50 * 1024 * 1024,  # 50 MB - should trigger HIGH priority
+                "wasted_space": 50
+                * 1024
+                * 1024,  # 50 MB - should trigger HIGH priority
             },
         },
         "patterns": {
@@ -179,9 +177,7 @@ class TestRecommendationEngine:
         recs = result["recommendations"]
 
         # Find temp files recommendation
-        temp_rec = next(
-            (r for r in recs if "Temporary" in r["title"]), None
-        )
+        temp_rec = next((r for r in recs if "Temporary" in r["title"]), None)
         assert temp_rec is not None
         assert temp_rec["type"] == RecommendationType.CLEANUP
         assert temp_rec["priority"] in [Priority.HIGH, Priority.MEDIUM]
@@ -208,9 +204,7 @@ class TestRecommendationEngine:
         recs = result["recommendations"]
 
         # Find build artifacts recommendation
-        build_rec = next(
-            (r for r in recs if "Build Artifacts" in r["title"]), None
-        )
+        build_rec = next((r for r in recs if "Build Artifacts" in r["title"]), None)
         assert build_rec is not None
         assert build_rec["type"] == RecommendationType.CLEANUP
 
@@ -235,9 +229,7 @@ class TestRecommendationEngine:
         recs = result["recommendations"]
 
         # Find deep nesting recommendation
-        depth_rec = next(
-            (r for r in recs if "Deep Folder Nesting" in r["title"]), None
-        )
+        depth_rec = next((r for r in recs if "Deep Folder Nesting" in r["title"]), None)
         assert depth_rec is not None
         assert depth_rec["type"] == RecommendationType.ORGANIZATION
 
@@ -253,7 +245,12 @@ class TestRecommendationEngine:
             "patterns": {
                 "temp_files": [],
                 "build_artifacts": [],
-                "version_patterns": [{"pattern": "semantic", "files": [f"file-v{i}.txt" for i in range(10)]}],
+                "version_patterns": [
+                    {
+                        "pattern": "semantic",
+                        "files": [f"file-v{i}.txt" for i in range(10)],
+                    }
+                ],
                 "duplicate_names": {},
             },
         }
@@ -262,9 +259,7 @@ class TestRecommendationEngine:
         recs = result["recommendations"]
 
         # Find version patterns recommendation
-        version_rec = next(
-            (r for r in recs if "Versioned" in r["title"]), None
-        )
+        version_rec = next((r for r in recs if "Versioned" in r["title"]), None)
         assert version_rec is not None
         assert version_rec["type"] == RecommendationType.ORGANIZATION
 
@@ -295,7 +290,9 @@ class TestRecommendationEngine:
             "patterns": {
                 "temp_files": [f"temp{i}.tmp" for i in range(150)],  # HIGH
                 "build_artifacts": [f"build{i}.pyc" for i in range(600)],  # MEDIUM
-                "version_patterns": [{"pattern": "semantic", "files": [f"v{i}" for i in range(10)]}],
+                "version_patterns": [
+                    {"pattern": "semantic", "files": [f"v{i}" for i in range(10)]}
+                ],
                 "duplicate_names": {},
             },
         }
@@ -340,14 +337,16 @@ class TestRecommendationEngine:
             "patterns": {
                 "temp_files": [f"t{i}" for i in range(50)],  # 50% temp
                 "build_artifacts": [f"b{i}" for i in range(30)],  # 30% build
-                "version_patterns": [{"pattern": "semantic", "files": [f"v{i}" for i in range(20)]}],
+                "version_patterns": [
+                    {"pattern": "semantic", "files": [f"v{i}" for i in range(20)]}
+                ],
                 "duplicate_names": {},
             },
         }
 
-        perfect_score = recommendation_engine.generate_recommendations(perfect_analysis)[
-            "health_score"
-        ]
+        perfect_score = recommendation_engine.generate_recommendations(
+            perfect_analysis
+        )["health_score"]
         poor_score = recommendation_engine.generate_recommendations(poor_analysis)[
             "health_score"
         ]

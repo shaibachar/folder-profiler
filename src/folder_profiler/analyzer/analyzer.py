@@ -2,12 +2,13 @@
 Main folder analysis orchestrator.
 """
 
-from folder_profiler.scanner.models import FolderNode
-from folder_profiler.analyzer.statistics import StatisticsCalculator
+from typing import Any
+
 from folder_profiler.analyzer.duplicates import DuplicateDetector
 from folder_profiler.analyzer.patterns import PatternDetector
 from folder_profiler.analyzer.recommendations import RecommendationEngine
-from typing import Dict, Any
+from folder_profiler.analyzer.statistics import StatisticsCalculator
+from folder_profiler.scanner.models import FolderNode
 
 
 class FolderAnalyzer:
@@ -15,14 +16,14 @@ class FolderAnalyzer:
     Analyzes folder structures and generates insights.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize the analyzer."""
         self.stats_calculator = StatisticsCalculator()
         self.duplicate_detector = DuplicateDetector()
         self.pattern_detector = PatternDetector()
         self.recommendation_engine = RecommendationEngine()
 
-    def analyze(self, folder_tree: FolderNode) -> Dict[str, Any]:
+    def analyze(self, folder_tree: FolderNode) -> dict[str, Any]:
         """
         Perform complete analysis on a folder tree.
 
@@ -37,10 +38,10 @@ class FolderAnalyzer:
             "duplicates": self.duplicate_detector.find_duplicates(folder_tree),
             "patterns": self.pattern_detector.detect_patterns(folder_tree),
         }
-        
+
         # Generate smart recommendations
-        analysis["recommendations"] = self.recommendation_engine.generate_recommendations(
-            analysis
+        analysis["recommendations"] = (
+            self.recommendation_engine.generate_recommendations(analysis)
         )
-        
+
         return analysis

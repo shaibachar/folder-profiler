@@ -2,10 +2,9 @@
 Tests for utility functions.
 """
 
-import pytest
 from datetime import datetime
 
-from folder_profiler.utils.formatting import format_size, format_date
+from folder_profiler.utils.formatting import format_date, format_size
 
 
 class TestFormatSize:

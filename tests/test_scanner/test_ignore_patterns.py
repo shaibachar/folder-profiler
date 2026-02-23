@@ -2,7 +2,6 @@
 Unit tests for ignore pattern matching.
 """
 
-import pytest
 from pathlib import Path
 
 from folder_profiler.scanner.ignore_patterns import IgnorePatternMatcher

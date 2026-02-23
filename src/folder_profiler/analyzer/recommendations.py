@@ -2,9 +2,9 @@
 Smart recommendations based on folder analysis.
 """
 
-from typing import Dict, List, Any
 from dataclasses import dataclass
 from enum import Enum
+from typing import Any
 
 
 class RecommendationType(str, Enum):
@@ -43,13 +43,13 @@ class Recommendation:
 class RecommendationEngine:
     """Generate smart recommendations based on analysis results."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Initialize recommendation engine."""
-        self.recommendations: List[Recommendation] = []
+        self.recommendations: list[Recommendation] = []
 
     def generate_recommendations(
-        self, analysis_results: Dict[str, Any]
-    ) -> Dict[str, Any]:
+        self, analysis_results: dict[str, Any]
+    ) -> dict[str, Any]:
         """
         Generate recommendations based on analysis results.
 
@@ -74,9 +74,7 @@ class RecommendationEngine:
         self._analyze_organization(statistics, patterns)
 
         # Calculate health score
-        health_score = self._calculate_health_score(
-            statistics, duplicates, patterns
-        )
+        health_score = self._calculate_health_score(statistics, duplicates, patterns)
 
         return {
             "recommendations": [
@@ -90,14 +88,15 @@ class RecommendationEngine:
                     "affected_files": rec.affected_files,
                 }
                 for rec in sorted(
-                    self.recommendations, key=lambda x: self._priority_weight(x.priority)
+                    self.recommendations,
+                    key=lambda x: self._priority_weight(x.priority),
                 )
             ],
             "health_score": health_score,
             "summary": self._generate_summary(health_score),
         }
 
-    def _analyze_duplicates(self, duplicates: Dict[str, Any]) -> None:
+    def _analyze_duplicates(self, duplicates: dict[str, Any]) -> None:
         """Analyze duplicate files and generate recommendations."""
         dup_stats = duplicates.get("statistics", {})
         wasted_space = dup_stats.get("wasted_space", 0)
@@ -124,7 +123,7 @@ class RecommendationEngine:
             )
         )
 
-    def _analyze_temp_files(self, patterns: Dict[str, Any]) -> None:
+    def _analyze_temp_files(self, patterns: dict[str, Any]) -> None:
         """Analyze temporary files and generate recommendations."""
         temp_files = patterns.get("temp_files", [])
         temp_count = len(temp_files)
@@ -154,7 +153,7 @@ class RecommendationEngine:
             )
         )
 
-    def _analyze_build_artifacts(self, patterns: Dict[str, Any]) -> None:
+    def _analyze_build_artifacts(self, patterns: dict[str, Any]) -> None:
         """Analyze build artifacts and generate recommendations."""
         build_files = patterns.get("build_artifacts", [])
         build_count = len(build_files)
@@ -184,7 +183,7 @@ class RecommendationEngine:
             )
         )
 
-    def _analyze_storage(self, statistics: Dict[str, Any]) -> None:
+    def _analyze_storage(self, statistics: dict[str, Any]) -> None:
         """Analyze storage usage and generate recommendations."""
         summary = statistics.get("summary", {})
         total_size = summary.get("total_size", 0)
@@ -202,7 +201,7 @@ class RecommendationEngine:
                         type=RecommendationType.STORAGE,
                         priority=Priority.MEDIUM,
                         title="Large File Dominates Storage",
-                        description=f"Single file accounts for >50% of total storage",
+                        description="Single file accounts for >50% of total storage",
                         action=f"Review large file: {top_file.get('path', 'unknown')}",
                         estimated_savings=0,
                         affected_files=1,
@@ -227,7 +226,7 @@ class RecommendationEngine:
             )
 
     def _analyze_organization(
-        self, statistics: Dict[str, Any], patterns: Dict[str, Any]
+        self, statistics: dict[str, Any], patterns: dict[str, Any]
     ) -> None:
         """Analyze folder organization and generate recommendations."""
         # Check depth analysis
@@ -250,10 +249,12 @@ class RecommendationEngine:
         # Check version patterns
         version_patterns = patterns.get("version_patterns", [])
         # Count total files across all version patterns
-        total_versioned_files = sum(
-            len(p.get("files", [])) for p in version_patterns
-        ) if isinstance(version_patterns, list) else 0
-        
+        total_versioned_files = (
+            sum(len(p.get("files", [])) for p in version_patterns)
+            if isinstance(version_patterns, list)
+            else 0
+        )
+
         if total_versioned_files > 5:
             self.recommendations.append(
                 Recommendation(
@@ -284,9 +285,9 @@ class RecommendationEngine:
 
     def _calculate_health_score(
         self,
-        statistics: Dict[str, Any],
-        duplicates: Dict[str, Any],
-        patterns: Dict[str, Any],
+        statistics: dict[str, Any],
+        duplicates: dict[str, Any],
+        patterns: dict[str, Any],
     ) -> int:
         """
         Calculate folder health score (0-100).

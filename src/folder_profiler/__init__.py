@@ -10,9 +10,9 @@ __version__ = "0.1.0"
 __author__ = "Folder Profiler Team"
 __license__ = "MIT"
 
-from folder_profiler.scanner import FolderScanner
 from folder_profiler.analyzer import FolderAnalyzer
 from folder_profiler.reporter import ReportGenerator
+from folder_profiler.scanner import FolderScanner
 
 __all__ = [
     "FolderScanner",

@@ -2,10 +2,10 @@
 JSON report generation.
 """
 
-from pathlib import Path
-from typing import Dict, Any
 import json
 from datetime import datetime
+from pathlib import Path
+from typing import Any
 
 
 class JSONReporter:
@@ -13,7 +13,7 @@ class JSONReporter:
     Generates JSON format reports.
     """
 
-    def generate(self, analysis_results: Dict[str, Any], output_path: Path) -> Path:
+    def generate(self, analysis_results: dict[str, Any], output_path: Path) -> Path:
         """
         Generate JSON report.
 
@@ -33,12 +33,12 @@ class JSONReporter:
             },
             "analysis": analysis_results,
         }
-        
+
         # Ensure parent directory exists
         output_path.parent.mkdir(parents=True, exist_ok=True)
-        
+
         # Write JSON with pretty printing
         with open(output_path, "w", encoding="utf-8") as f:
             json.dump(report, f, indent=2, ensure_ascii=False)
-        
+
         return output_path

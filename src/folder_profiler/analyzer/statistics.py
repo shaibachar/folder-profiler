@@ -2,12 +2,12 @@
 Statistics calculation for file systems.
 """
 
-from folder_profiler.scanner.models import FolderNode, FileInfo
-from typing import Dict, Any, List, Tuple
-from collections import defaultdict, Counter
-from datetime import datetime, timedelta
-from pathlib import Path
 import statistics
+from collections import defaultdict
+from datetime import datetime, timedelta
+from typing import Any
+
+from folder_profiler.scanner.models import FileInfo, FolderNode
 
 
 class StatisticsCalculator:
@@ -15,7 +15,7 @@ class StatisticsCalculator:
     Calculates various statistics about folder structures.
     """
 
-    def calculate(self, folder_tree: FolderNode) -> Dict[str, Any]:
+    def calculate(self, folder_tree: FolderNode) -> dict[str, Any]:
         """
         Calculate comprehensive statistics.
 
@@ -45,12 +45,12 @@ class StatisticsCalculator:
         }
         return stats
 
-    def _calculate_summary(self, folder_tree: FolderNode) -> Dict[str, Any]:
+    def _calculate_summary(self, folder_tree: FolderNode) -> dict[str, Any]:
         """Calculate basic summary statistics."""
         all_files = self._collect_all_files(folder_tree)
-        
+
         sizes = [f.size for f in all_files if f.size > 0]
-        
+
         return {
             "total_files": folder_tree.total_files,
             "total_folders": folder_tree.total_folders,
@@ -61,43 +61,53 @@ class StatisticsCalculator:
             "smallest_file_size": min(sizes) if sizes else 0,
         }
 
-    def _calculate_file_types(self, folder_tree: FolderNode) -> Dict[str, Dict[str, Any]]:
+    def _calculate_file_types(
+        self, folder_tree: FolderNode
+    ) -> dict[str, dict[str, Any]]:
         """Calculate file type distribution by MIME type."""
         all_files = self._collect_all_files(folder_tree)
-        
-        type_stats = defaultdict(lambda: {"count": 0, "total_size": 0})
-        
+
+        type_stats: dict[str, dict[str, Any]] = defaultdict(
+            lambda: {"count": 0, "total_size": 0}
+        )
+
         for file in all_files:
             mime_type = file.mime_type or "unknown"
             # Group by primary MIME type (e.g., "text", "image", "application")
             primary_type = mime_type.split("/")[0] if "/" in mime_type else mime_type
-            
+
             type_stats[primary_type]["count"] += 1
             type_stats[primary_type]["total_size"] += file.size
-        
+
         return dict(type_stats)
 
-    def _calculate_extensions(self, folder_tree: FolderNode) -> Dict[str, Dict[str, Any]]:
+    def _calculate_extensions(
+        self, folder_tree: FolderNode
+    ) -> dict[str, dict[str, Any]]:
         """Calculate file extension distribution."""
         all_files = self._collect_all_files(folder_tree)
-        
-        ext_stats = defaultdict(lambda: {"count": 0, "total_size": 0})
-        
+
+        ext_stats: dict[str, dict[str, Any]] = defaultdict(
+            lambda: {"count": 0, "total_size": 0}
+        )
+
         for file in all_files:
             ext = file.extension or "no_extension"
             ext_stats[ext]["count"] += 1
             ext_stats[ext]["total_size"] += file.size
-        
+
         # Sort by count descending
-        sorted_stats = dict(sorted(ext_stats.items(), key=lambda x: x[1]["count"], reverse=True))
-        
+        sorted_stats = dict(
+            sorted(ext_stats.items(), key=lambda x: x[1]["count"], reverse=True)
+        )
+
         return sorted_stats
 
-    def _calculate_age_distribution(self, folder_tree: FolderNode) -> Dict[str, int]:
+    def _calculate_age_distribution(self, folder_tree: FolderNode) -> dict[str, int]:
         """Calculate file age distribution."""
         all_files = self._collect_all_files(folder_tree)
         now = datetime.now()
-        
+
         age_buckets = {
             "last_24h": 0,
             "last_week": 0,
@@ -107,13 +117,13 @@ class StatisticsCalculator:
             "last_year": 0,
             "older_than_year": 0,
         }
-        
+
         for file in all_files:
             if not file.modified:
                 continue
-                
+
             age = now - file.modified
-            
+
             if age <= timedelta(days=1):
                 age_buckets["last_24h"] += 1
             elif age <= timedelta(weeks=1):
@@ -128,28 +138,28 @@ class StatisticsCalculator:
                 age_buckets["last_year"] += 1
             else:
                 age_buckets["older_than_year"] += 1
-        
+
         return age_buckets
 
-    def _calculate_size_distribution(self, folder_tree: FolderNode) -> Dict[str, int]:
+    def _calculate_size_distribution(self, folder_tree: FolderNode) -> dict[str, int]:
         """Calculate file size distribution."""
         all_files = self._collect_all_files(folder_tree)
-        
+
         size_buckets = {
             "empty": 0,
-            "tiny_1kb": 0,          # < 1 KB
-            "small_10kb": 0,        # 1 KB - 10 KB
-            "medium_100kb": 0,      # 10 KB - 100 KB
-            "large_1mb": 0,         # 100 KB - 1 MB
-            "xlarge_10mb": 0,       # 1 MB - 10 MB
-            "xxlarge_100mb": 0,     # 10 MB - 100 MB
-            "huge_1gb": 0,          # 100 MB - 1 GB
-            "gigantic": 0,          # > 1 GB
+            "tiny_1kb": 0,  # < 1 KB
+            "small_10kb": 0,  # 1 KB - 10 KB
+            "medium_100kb": 0,  # 10 KB - 100 KB
+            "large_1mb": 0,  # 100 KB - 1 MB
+            "xlarge_10mb": 0,  # 1 MB - 10 MB
+            "xxlarge_100mb": 0,  # 10 MB - 100 MB
+            "huge_1gb": 0,  # 100 MB - 1 GB
+            "gigantic": 0,  # > 1 GB
         }
-        
+
         for file in all_files:
             size = file.size
-            
+
             if size == 0:
                 size_buckets["empty"] += 1
             elif size < 1024:
@@ -168,29 +178,29 @@ class StatisticsCalculator:
                 size_buckets["huge_1gb"] += 1
             else:
                 size_buckets["gigantic"] += 1
-        
+
         return size_buckets
 
-    def _calculate_depth_analysis(self, folder_tree: FolderNode) -> Dict[str, Any]:
+    def _calculate_depth_analysis(self, folder_tree: FolderNode) -> dict[str, Any]:
         """Analyze folder depth distribution."""
-        depth_files = defaultdict(int)
-        depth_folders = defaultdict(int)
-        depth_sizes = defaultdict(int)
-        
-        def analyze_depth(node: FolderNode, depth: int = 0):
+        depth_files: dict[int, int] = defaultdict(int)
+        depth_folders: dict[int, int] = defaultdict(int)
+        depth_sizes: dict[int, int] = defaultdict(int)
+
+        def analyze_depth(node: FolderNode, depth: int = 0) -> None:
             depth_folders[depth] += 1
-            
+
             for file in node.files:
                 depth_files[depth] += 1
                 depth_sizes[depth] += file.size
-            
+
             for subfolder in node.subfolders:
                 analyze_depth(subfolder, depth + 1)
-        
+
         analyze_depth(folder_tree)
-        
+
         max_depth = max(depth_folders.keys()) if depth_folders else 0
-        
+
         return {
             "max_depth": max_depth,
             "files_by_depth": dict(depth_files),
@@ -198,12 +208,14 @@ class StatisticsCalculator:
             "size_by_depth": dict(depth_sizes),
         }
 
-    def _find_largest_files(self, folder_tree: FolderNode, limit: int = 10) -> List[Dict[str, Any]]:
+    def _find_largest_files(
+        self, folder_tree: FolderNode, limit: int = 10
+    ) -> list[dict[str, Any]]:
         """Find the largest files."""
         all_files = self._collect_all_files(folder_tree)
-        
+
         sorted_files = sorted(all_files, key=lambda f: f.size, reverse=True)[:limit]
-        
+
         return [
             {
                 "path": str(f.path),
@@ -214,19 +226,23 @@ class StatisticsCalculator:
             for f in sorted_files
         ]
 
-    def _find_largest_folders(self, folder_tree: FolderNode, limit: int = 10) -> List[Dict[str, Any]]:
+    def _find_largest_folders(
+        self, folder_tree: FolderNode, limit: int = 10
+    ) -> list[dict[str, Any]]:
         """Find the largest folders."""
         all_folders = []
-        
-        def collect_folders(node: FolderNode):
+
+        def collect_folders(node: FolderNode) -> None:
             all_folders.append(node)
             for subfolder in node.subfolders:
                 collect_folders(subfolder)
-        
+
         collect_folders(folder_tree)
-        
-        sorted_folders = sorted(all_folders, key=lambda f: f.total_size, reverse=True)[:limit]
-        
+
+        sorted_folders = sorted(all_folders, key=lambda f: f.total_size, reverse=True)[
+            :limit
+        ]
+
         return [
             {
                 "path": str(f.path),
@@ -238,15 +254,17 @@ class StatisticsCalculator:
             for f in sorted_folders
         ]
 
-    def _find_oldest_files(self, folder_tree: FolderNode, limit: int = 10) -> List[Dict[str, Any]]:
+    def _find_oldest_files(
+        self, folder_tree: FolderNode, limit: int = 10
+    ) -> list[dict[str, Any]]:
         """Find the oldest files by modification time."""
         all_files = self._collect_all_files(folder_tree)
-        
+
         # Filter files with modification time
         files_with_time = [f for f in all_files if f.modified]
-        
+
         sorted_files = sorted(files_with_time, key=lambda f: f.modified)[:limit]
-        
+
         return [
             {
                 "path": str(f.path),
@@ -257,15 +275,19 @@ class StatisticsCalculator:
             for f in sorted_files
         ]
 
-    def _find_newest_files(self, folder_tree: FolderNode, limit: int = 10) -> List[Dict[str, Any]]:
+    def _find_newest_files(
+        self, folder_tree: FolderNode, limit: int = 10
+    ) -> list[dict[str, Any]]:
         """Find the newest files by modification time."""
         all_files = self._collect_all_files(folder_tree)
-        
+
         # Filter files with modification time
         files_with_time = [f for f in all_files if f.modified]
-        
-        sorted_files = sorted(files_with_time, key=lambda f: f.modified, reverse=True)[:limit]
-        
+
+        sorted_files = sorted(files_with_time, key=lambda f: f.modified, reverse=True)[
+            :limit
+        ]
+
         return [
             {
                 "path": str(f.path),
@@ -276,14 +298,14 @@ class StatisticsCalculator:
             for f in sorted_files
         ]
 
-    def _collect_all_files(self, folder_tree: FolderNode) -> List[FileInfo]:
+    def _collect_all_files(self, folder_tree: FolderNode) -> list[FileInfo]:
         """Recursively collect all files from the folder tree."""
         all_files = []
-        
-        def collect(node: FolderNode):
+
+        def collect(node: FolderNode) -> None:
             all_files.extend(node.files)
             for subfolder in node.subfolders:
                 collect(subfolder)
-        
+
         collect(folder_tree)
         return all_files

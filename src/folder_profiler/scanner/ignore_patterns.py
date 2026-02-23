@@ -2,9 +2,8 @@
 Ignore pattern handling (.gitignore-style patterns).
 """
 
-from pathlib import Path
-from typing import List, Set
 import fnmatch
+from pathlib import Path
 
 
 class IgnorePatternMatcher:
@@ -12,7 +11,7 @@ class IgnorePatternMatcher:
     Handles .gitignore-style ignore patterns.
     """
 
-    def __init__(self, patterns: List[str]):
+    def __init__(self, patterns: list[str]):
         """
         Initialize with a list of ignore patterns.
 
@@ -59,7 +58,7 @@ class IgnorePatternMatcher:
         """
         patterns = []
         if ignore_file.exists():
-            with open(ignore_file, "r", encoding="utf-8") as f:
+            with open(ignore_file, encoding="utf-8") as f:
                 for line in f:
                     line = line.strip()
                     # Skip empty lines and comments
